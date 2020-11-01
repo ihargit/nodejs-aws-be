@@ -2,19 +2,34 @@ import products from './products.json';
 
 export const getProductById = async (event) => {
   console.log('Lambda invocation with event: ', event);
-  const { productId } = event.pathParameters;
-  const product = products.find(({ id }) => id === productId) || 'product not found';
-
-  return {
+  const allowedOrigins = ['https://dm9otfstrcg58.cloudfront.net'];
+  const responce = {
     statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': 'https://dm9otfstrcg58.cloudfront.net',
-      'Access-Control-Allow-Credentials': true,
-    },
-    body: JSON.stringify(
-      product,
-      null,
-      2
-    ),
   };
+
+  try {
+    const origin = event.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+      responce.headers = {
+        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Credentials': true,
+      }
+    }
+    const { productId } = event.pathParameters;
+    const product = products.find(({ id }) => id === productId);
+    if (product) {
+      responce.body = JSON.stringify(
+        product,
+        null,
+        2
+      );
+    } else {
+      responce.statusCode = 404;
+    }
+    return responce;
+  } catch(e) {
+    console.log(JSON.stringify(e));
+    responce.statusCode = 500;
+    return responce;
+  }
 };
