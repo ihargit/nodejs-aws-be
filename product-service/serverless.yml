@@ -1,0 +1,33 @@
+service: product-service
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: eu-west-1
+  profile: serverless
+  apiGateway: 
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+
+environment:
+  AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+
+functions:
+  getProductsList:
+    handler: getProductsList.handler
+    events:
+     - http:
+         method: get
+         path: products
+  getProductsById:
+    handler: getProductsById.handler
+    events:
+     - http:
+         method: get
+         path: products/{productId}
+         request:
+            parameters:
+              paths:
+                productId: true
