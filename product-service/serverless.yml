@@ -11,18 +11,26 @@ provider:
     minimumCompressionSize: 1024
     shouldStartNameWithService: true
 
+plugins:
+  - serverless-webpack
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.js'
+    includeModules: true
+
 environment:
   AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
 
 functions:
-  getProductsList:
-    handler: getProductsList.handler
+  getAllProducts:
+    handler: handler.getAllProducts
     events:
      - http:
          method: get
          path: products
-  getProductsById:
-    handler: getProductsById.handler
+  getProductById:
+    handler: handler.getProductById
     events:
      - http:
          method: get
