@@ -1,8 +1,8 @@
 import products from './products.json';
+import allowedOrigins from './constants/alloweb-origins';
 
 export const getAllProducts =  async event => {
   console.log('Lambda invocation with event: ', event);
-  const allowedOrigins = ['https://dm9otfstrcg58.cloudfront.net'];
   const responce = {
     statusCode: 200
   };
@@ -22,6 +22,7 @@ export const getAllProducts =  async event => {
       );
     } else {
       responce.statusCode = 404;
+      responce.body = 'No products found';
     }
     return responce;
   } catch(e) {

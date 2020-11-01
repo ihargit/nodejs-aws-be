@@ -1,8 +1,8 @@
 import products from './products.json';
+import allowedOrigins from './constants/alloweb-origins';
 
 export const getProductById = async (event) => {
   console.log('Lambda invocation with event: ', event);
-  const allowedOrigins = ['https://dm9otfstrcg58.cloudfront.net'];
   const responce = {
     statusCode: 200
   };
