@@ -1,5 +1,5 @@
 service: product-service
-frameworkVersion: '2'
+frameworkVersion: "2"
 
 provider:
   name: aws
@@ -7,7 +7,7 @@ provider:
   stage: dev
   region: eu-west-1
   profile: serverless
-  apiGateway: 
+  apiGateway:
     minimumCompressionSize: 1024
     shouldStartNameWithService: true
 
@@ -16,26 +16,46 @@ plugins:
 
 custom:
   webpack:
-    webpackConfig: 'webpack.config.js'
+    webpackConfig: "webpack.config.js"
     includeModules: true
 
 environment:
-  AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1'
+  AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
 
 functions:
   getAllProducts:
     handler: handler.getAllProducts
     events:
-     - http:
-         method: get
-         path: products
+      - http:
+          method: get
+          path: products
+          cors:
+            origin: "https://dm9otfstrcg58.cloudfront.net"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
   getProductById:
     handler: handler.getProductById
     events:
-     - http:
-         method: get
-         path: products/{productId}
-         request:
+      - http:
+          method: get
+          path: products/{productId}
+          cors:
+            origin: "https://dm9otfstrcg58.cloudfront.net"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+          request:
             parameters:
               paths:
                 productId: true

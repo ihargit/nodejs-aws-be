@@ -5,6 +5,10 @@ export const getAllProducts =  async event => {
   
   return {
     statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': 'https://dm9otfstrcg58.cloudfront.net',
+      'Access-Control-Allow-Credentials': true,
+    },
     body: JSON.stringify(
       products,
       null,
