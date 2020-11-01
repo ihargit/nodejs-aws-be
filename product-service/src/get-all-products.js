@@ -3,7 +3,6 @@ import products from './products.json';
 export const getAllProducts =  async event => {
   console.log('Lambda invocation with event: ', event);
   const allowedOrigins = ['https://dm9otfstrcg58.cloudfront.net'];
-  const origin = event.headers.origin;
   const responce = {
     statusCode: 200
   };

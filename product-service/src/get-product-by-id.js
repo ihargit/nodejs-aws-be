@@ -4,7 +4,7 @@ export const getProductById = async (event) => {
   console.log('Lambda invocation with event: ', event);
   const allowedOrigins = ['https://dm9otfstrcg58.cloudfront.net'];
   const responce = {
-    statusCode: 200,
+    statusCode: 200
   };
 
   try {
@@ -25,6 +25,7 @@ export const getProductById = async (event) => {
       );
     } else {
       responce.statusCode = 404;
+      responce.body = 'No product found';
     }
     return responce;
   } catch(e) {
