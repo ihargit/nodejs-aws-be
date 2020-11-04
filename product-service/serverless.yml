@@ -1,0 +1,147 @@
+service: product-service
+frameworkVersion: "2"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: eu-west-1
+  profile: serverless
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+
+plugins:
+  - serverless-webpack
+  - serverless-openapi-documentation
+
+custom:
+  webpack:
+    webpackConfig: "webpack.config.js"
+    includeModules: true
+  documentation:
+    version: "1"
+    title: Product Service API
+    description: Product Service API
+    models:
+      - name: ErrorResponse
+        description: This is an error
+        contentType: application/text
+        schema:
+          $schema: http://json-schema.org/draft-04/schema#
+          properties:
+            Message:
+              type: string
+      - name: GetAllProducts
+        description: This is an error
+        contentType: application/json
+        schema:
+          $schema: http://json-schema.org/draft-04/schema#
+          properties:
+            Products:
+              type: array
+      - name: GetProductById
+        description: This is an error
+        contentType: application/json
+        schema:
+          $schema: http://json-schema.org/draft-04/schema#
+          properties:
+            Product:
+              type: object
+              properties:
+                count:
+                  type: number
+                description:
+                  type: string
+                id:
+                  type: string
+                price:
+                  type: number
+                title:
+                  type: string
+                
+
+environment:
+  AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+
+functions:
+  getAllProducts:
+    handler: handler.getAllProducts
+    events:
+      - http:
+          method: get
+          path: products
+          documentation:
+            summary: "Get products"
+            description: "Get products"
+            methodResponses:
+              - statusCode: 200
+                responseBody:
+                  description: "Products"
+                responseModels:
+                  application/json: "GetAllProducts"
+              - statusCode: 404
+                responseBody:
+                  description: "Products not found error message"
+                responseModels:
+                  application/json: "ErrorResponse"
+              - statusCode: 500
+                responseBody:
+                  description: "Internall server error message"
+                responseModels:
+                  application/json: "ErrorResponse"
+          cors:
+            origin: "https://dm9otfstrcg58.cloudfront.net"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+  getProductById:
+    handler: handler.getProductById
+    events:
+      - http:
+          method: get
+          path: products/{productId}
+          documentation:
+            summary: Get product by id
+            description: Get product by id
+            pathParams:
+              - name: productId
+                description: Product ID
+                schema:
+                  type: string
+                  pattern: "^[-a-z0-9_]+$"
+            methodResponses:
+              - statusCode: 200
+                responseBody:
+                  description: Product
+                responseModels:
+                  application/json: GetProductById
+              - statusCode: 404
+                responseBody:
+                  description: Product not found error message
+                responseModels:
+                  application/json: ErrorResponse
+              - statusCode: 500
+                responseBody:
+                  description: Internall server error message
+                responseModels:
+                  application/json: ErrorResponse
+          cors:
+            origin: "https://dm9otfstrcg58.cloudfront.net"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+          request:
+            parameters:
+              paths:
+                productId: true
