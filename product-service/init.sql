@@ -45,4 +45,4 @@ INSERT INTO products(title, description, price)
 VALUES('Wolf', 'Wolf toy', 3);
 
 -- set random 'count' to 'stocks' (1 > count < 11)
-UPDATE stocks SET count=floor(random() * 10 + 1)::int;
+UPDATE stocks SET count=floor(random() * 10 + 1)::int
