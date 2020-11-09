@@ -1,6 +1,6 @@
-import { getProductById, getAllProducts } from './controllers/product.js';
+import { getProductByIdDB, getAllProductsDB } from './controllers/product';
 
 export {
-  getProductById,
-  getAllProducts
+  getProductByIdDB,
+  getAllProductsDB
 }

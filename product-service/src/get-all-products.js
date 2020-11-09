@@ -1,4 +1,4 @@
-import products from './products.json';
+import { getAllProductsDB } from './db';
 import allowedOrigins from './constants/alloweb-origins';
 
 export const getAllProducts =  async event => {
@@ -14,6 +14,7 @@ export const getAllProducts =  async event => {
         'Access-Control-Allow-Credentials': true,
       }
     }
+    const products = await getAllProductsDB();
     if (products) {
       responce.body = JSON.stringify(
         products,
@@ -27,7 +28,7 @@ export const getAllProducts =  async event => {
     return responce;
   } catch(e) {
     console.log(JSON.stringify(e));
-    responce.statusCode = 500;
+    responce.statusCode = e.name === 'ValidationError' ? 400 : 500;
     return responce;
   }
 };

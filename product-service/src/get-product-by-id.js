@@ -1,4 +1,4 @@
-import products from './products.json';
+import { getProductByIdDB } from './db';
 import allowedOrigins from './constants/alloweb-origins';
 
 export const getProductById = async (event) => {
@@ -16,7 +16,7 @@ export const getProductById = async (event) => {
       }
     }
     const { productId } = event.pathParameters;
-    const product = products.find(({ id }) => id === productId);
+    const product = await getProductByIdDB(productId);
     if (product) {
       responce.body = JSON.stringify(
         product,
