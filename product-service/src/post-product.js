@@ -30,7 +30,12 @@ export const postProduct = async (event) => {
     return response;
   } catch(e) {
     console.log(JSON.stringify(e));
-    response.statusCode = e.name === 'ValidationError' ? 400 : 500;
+    response.statusCode = 500;
+    const isValidationError = e.name === 'ValidationError';
+    if (isValidationError) {
+      response.statusCode = 400;
+      response.body = JSON.stringify({ validationError: e.message });
+    }
     return response;
   }
 };
