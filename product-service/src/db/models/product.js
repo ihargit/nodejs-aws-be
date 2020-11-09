@@ -5,6 +5,7 @@ const productSchema = Joi.object({
   title: Joi.string().required(),
   description: Joi.string(),
   price: Joi.number().positive().allow(0),
+  count: Joi.number().positive().allow(0),
 });
 
 export { productSchema };
