@@ -1,11 +1,12 @@
-import { getAllProductsDB } from './db';
+import { postProductDB } from './db';
 import allowedOrigins from './constants/alloweb-origins';
 
-export const getAllProducts =  async event => {
+export const postProduct = async (event) => {
   console.log('Lambda invocation with event: ', event);
   const responce = {
     statusCode: 200
   };
+
   try {
     const origin = event.headers.origin;
     if (allowedOrigins.includes(origin)) {
@@ -14,21 +15,22 @@ export const getAllProducts =  async event => {
         'Access-Control-Allow-Credentials': true,
       }
     }
-    const products = await getAllProductsDB();
-    if (products) {
+    const requestBody = JSON.parse(event.body);
+    const result = await postProductDB(requestBody);
+    if (result) {
       responce.body = JSON.stringify(
-        products,
+        result,
         null,
         2
       );
     } else {
-      responce.statusCode = 404;
-      responce.body = 'No products found';
+      responce.statusCode = 400;
+      responce.body = 'Can not create product';
     }
     return responce;
   } catch(e) {
     console.log(JSON.stringify(e));
-    responce.statusCode = 500;
+    responce.statusCode = e.name === 'ValidationError' ? 400 : 500;
     return responce;
   }
 };

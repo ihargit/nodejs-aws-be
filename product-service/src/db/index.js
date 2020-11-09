@@ -1,6 +1,7 @@
-import { getProductByIdDB, getAllProductsDB } from './controllers/product';
-
-export {
+import {
   getProductByIdDB,
-  getAllProductsDB
-}
+  getAllProductsDB,
+  postProductDB,
+} from './controllers/product';
+
+export { getProductByIdDB, getAllProductsDB, postProductDB };

@@ -149,3 +149,19 @@ functions:
             parameters:
               paths:
                 productId: true
+  postProduct:
+    handler: handler.postProduct
+    events:
+      - http:
+          method: post
+          path: products
+          cors:
+            origin: "https://dm9otfstrcg58.cloudfront.net"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
