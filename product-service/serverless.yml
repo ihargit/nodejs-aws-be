@@ -10,10 +10,18 @@ provider:
   apiGateway:
     minimumCompressionSize: 1024
     shouldStartNameWithService: true
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+    PGUSER: ${env:PGUSER}
+    PGHOST: ${env:PGHOST}
+    PGDATABASE: ${env:PGDATABASE}
+    PGPASSWORD: ${env:PGPASSWORD}
+    PGPORT: ${env:PGPORT}
 
 plugins:
   - serverless-webpack
   - serverless-openapi-documentation
+  - serverless-dotenv-plugin
 
 custom:
   webpack:
@@ -59,10 +67,6 @@ custom:
                   type: number
                 title:
                   type: string
-                
-
-environment:
-  AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
 
 functions:
   getAllProducts:
@@ -145,3 +149,19 @@ functions:
             parameters:
               paths:
                 productId: true
+  postProduct:
+    handler: handler.postProduct
+    events:
+      - http:
+          method: post
+          path: products
+          cors:
+            origin: "https://dm9otfstrcg58.cloudfront.net"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
