@@ -28,7 +28,7 @@ const postProductDB = async ({ title, description, price, count }) => {
       count;`,
     values: [title, description, price, count],
   };
-  const result = (await queryDB(query))rows[0];
+  const result = (await queryDB(query)).rows[0];
   return result || null;
 };
 
