@@ -13,9 +13,23 @@ const postProductDB = async ({ title, description, price, count }) => {
   await productSchema.validateAsync({ title, description, price, count });
   const query = {
     text: 'INSERT INTO products(title, description, price) VALUES($1, $2, $3)',
-    values: [title, description, price],
+    text: `
+    with rows as (
+      insert into products(title, description, price)
+      values($1, $2, $3) returning *
+    )
+    insert into stocks(count, product_id)
+    values($4, (select id from rows))
+    returning
+      (select id from rows),
+      (select title from rows),
+      (select description from rows),
+      (select price from rows),
+      count;`,
+    values: [title, description, price, count],
   };
-  return (await queryDB(query)) ? { status: 'done'} : null;
+  const result = (await queryDB(query)).rows[0];
+  return result || null;
 };
 
 const getProductByIdDB = async (id) => {
