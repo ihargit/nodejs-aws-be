@@ -13,6 +13,7 @@ provider:
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
     AWS_REGION: ${env:AWS_REGION}
+    IMPORT_BUCKET_NAME: ${env:IMPORT_BUCKET_NAME}
   iamRoleStatements:
     - Effect: "Allow"
       Action: "s3:ListBucket"
@@ -57,8 +58,8 @@ functions:
     handler: handler.importFileParser
     events:
       - s3:
-        bucket: ${env:IMPORT_BUCKET_NAME}
-        event: s3:ObjectCreated:*
-        rules:
-          - prefix: uploaded/
-        existing: true
+          bucket: ${env:IMPORT_BUCKET_NAME}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+          existing: true
