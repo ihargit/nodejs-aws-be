@@ -8,4 +8,4 @@ jspm_packages
 .env
 bucket-policy.json
 endpoints.txt
-import-file-parser-experiment.js
+import-file-parser-v*.js
