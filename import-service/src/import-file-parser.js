@@ -6,9 +6,13 @@ export const importFileParser = async (event) => {
   console.log('Lambda invocation with event: ', event);
   const s3 = new AWS.S3({ region: REGION });
 
-  const readStream = async (stream) => {
+  const processRecord = async (record) => {
     return new Promise((resolve, reject) => {
-      s3Stream
+      s3.getObject({
+        Bucket: IMPORT_BUCKET_NAME,
+        Key: record.s3.object.key,
+      })
+        .createReadStream()
         .pipe(csv())
         .on('error', (error) => {
           console.log('Read stream error: ', JSON.stringify(error));
@@ -45,13 +49,5 @@ export const importFileParser = async (event) => {
     });
   };
 
-  const record = event.Records[0];
-  const s3Stream = s3
-    .getObject({
-      Bucket: IMPORT_BUCKET_NAME,
-      Key: record.s3.object.key,
-    })
-    .createReadStream();
-  console.log('Stream created');
-  await readStream(s3Stream);
+  await Promise.all(event.Records.map((record) => processRecord(record)));
 };
