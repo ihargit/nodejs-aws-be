@@ -4,8 +4,8 @@ import * as util from 'util';
 import * as stream from 'stream';
 const pipeline = util.promisify(stream.pipeline);
 import allowedOrigins from './constants/alloweb-origins';
-const { IMPORT_BUCKET_NAME, AWS_REGION } = process.env;
-const s3 = new AWS.S3({ region: AWS_REGION });
+const { IMPORT_BUCKET_NAME, REGION } = process.env;
+const s3 = new AWS.S3({ region: REGION });
 
 const processRecord = async (record) => {
   await pipeline(
@@ -17,24 +17,24 @@ const processRecord = async (record) => {
     console.log(data)
   );
 
-  const copySource = `${IMPORT_BUCKET_NAME}/${record.s3.object.key}`;
-  const targetKey = record.s3.object.key.replace('uploaded', 'parsed');
-  console.log(`Copy from ${copySource}`);
+  // const copySource = `${IMPORT_BUCKET_NAME}/${record.s3.object.key}`;
+  // const targetKey = record.s3.object.key.replace('uploaded', 'parsed');
+  // console.log(`Copy from ${copySource}`);
 
-  await s3.copyObject({
-    Bucket: IMPORT_BUCKET_NAME,
-    CopySource: copySource,
-    Key: targetKey
-  }).promise();
+  // await s3.copyObject({
+  //   Bucket: IMPORT_BUCKET_NAME,
+  //   CopySource: copySource,
+  //   Key: targetKey
+  // }).promise();
 
-  console.log(`Copied into ${IMPORT_BUCKET_NAME}/${targetKey}`);
+  // console.log(`Copied into ${IMPORT_BUCKET_NAME}/${targetKey}`);
   
-  await s3.deleteObject({
-    Bucket: IMPORT_BUCKET_NAME,
-    Key: record.s3.object.key
-  }).promise();
+  // await s3.deleteObject({
+  //   Bucket: IMPORT_BUCKET_NAME,
+  //   Key: record.s3.object.key
+  // }).promise();
 
-  console.log(`Deleted from ${copySource}`);
+  // console.log(`Deleted from ${copySource}`);
 }
 
 export const importFileParser = async (event) => {

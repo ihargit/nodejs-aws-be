@@ -5,14 +5,14 @@ provider:
   name: aws
   runtime: nodejs12.x
   stage: dev
-  region: ${env:AWS_REGION}
+  region: ${env:REGION}
   profile: serverless
   apiGateway:
     minimumCompressionSize: 1024
     shouldStartNameWithService: true
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
-    AWS_REGION: ${env:AWS_REGION}
+    REGION: ${env:REGION}
     IMPORT_BUCKET_NAME: ${env:IMPORT_BUCKET_NAME}
   iamRoleStatements:
     - Effect: "Allow"
@@ -38,11 +38,11 @@ functions:
     handler: handler.importProductsFile
     events:
       - http:
-          method: get
-          path: import/{name}
+          method: GET
+          path: import
           request:
             parameters:
-              paths:
+              querystrings:
                 name: true
           cors:
             origin: "https://dm9otfstrcg58.cloudfront.net"
