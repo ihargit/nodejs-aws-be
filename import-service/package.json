@@ -4,6 +4,7 @@
   "description": "Import service (REST API)",
   "main": "handler.js",
   "scripts": {
+    "test": "IMPORT_BUCKET_NAME=bucket REGION=region jest",
     "deploy": "serverless deploy"
   },
   "keywords": [],
@@ -19,8 +20,9 @@
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
+    "aws-sdk-mock": "^5.1.0",
     "babel-jest": "^26.6.1",
-    "jest": "^26.6.1",
+    "jest": "^26.6.3",
     "serverless-dotenv-plugin": "^3.1.0",
     "serverless-webpack": "^5.3.5",
     "webpack": "^5.3.2",
