@@ -26,7 +26,8 @@ export const importFileParser = async (event) => {
           const targetKey = record.s3.object.key.replace('uploaded', 'parsed');
           console.log(`Copy from ${copySource}`);
 
-          await s3
+          try {
+            await s3
             .copyObject({
               Bucket: IMPORT_BUCKET_NAME,
               CopySource: copySource,
@@ -44,6 +45,10 @@ export const importFileParser = async (event) => {
             .promise();
 
           console.log(`Deleted from ${copySource}`);
+          } catch(err) {
+            console.log(JSON.stringify(err));
+          }
+          
           resolve();
         });
     });
