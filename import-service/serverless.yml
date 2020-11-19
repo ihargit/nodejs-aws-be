@@ -1,0 +1,67 @@
+service: import-service
+frameworkVersion: "2"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 512
+  timeout: 10
+  stage: dev
+  region: ${env:REGION}
+  profile: serverless
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+    REGION: ${env:REGION}
+    IMPORT_BUCKET_NAME: ${env:IMPORT_BUCKET_NAME}
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "s3:ListBucket"
+      Resource:
+        - ${env:IMPORT_BUCKET_ARN}
+    - Effect: "Allow"
+      Action: "s3:*"
+      Resource:
+        - ${env:IMPORT_BUCKET_ARN}/*
+
+plugins:
+  - serverless-webpack
+  - serverless-dotenv-plugin
+
+custom:
+  webpack:
+    webpackConfig: "webpack.config.js"
+    includeModules: true
+  
+functions:
+  importProductsFile:
+    handler: handler.importProductsFile
+    events:
+      - http:
+          method: GET
+          path: import
+          request:
+            parameters:
+              querystrings:
+                name: true
+          cors:
+            origin: "https://dm9otfstrcg58.cloudfront.net"
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+            allowCredentials: false
+  importFileParser:
+    handler: handler.importFileParser
+    events:
+      - s3:
+          bucket: ${env:IMPORT_BUCKET_NAME}
+          event: s3:ObjectCreated:*
+          rules:
+            - prefix: uploaded/
+          existing: true

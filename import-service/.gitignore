@@ -1,0 +1,11 @@
+# package directories
+node_modules
+jspm_packages
+
+# Serverless directories
+.serverless
+.webpack/
+.env
+bucket-policy.json
+endpoints.txt
+import-file-parser-v*.js

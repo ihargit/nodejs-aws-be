@@ -4,6 +4,8 @@ frameworkVersion: "2"
 provider:
   name: aws
   runtime: nodejs12.x
+  memorySize: 512
+  timeout: 10
   stage: dev
   region: eu-west-1
   profile: serverless
