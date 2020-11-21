@@ -19,6 +19,17 @@ provider:
     PGDATABASE: ${env:PGDATABASE}
     PGPASSWORD: ${env:PGPASSWORD}
     PGPORT: ${env:PGPORT}
+    PRODUCT_SNS_ARN:
+      Ref: ProductSNSTopic
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action: "sqs:*"
+      Resources:
+        - Fn::GetAtt: [ ProductSQSQueue, Arn]
+    - Effect: "Allow"
+      Action: "sns:*"
+      Resources:
+        Ref: ProductSNSTopic
 
 plugins:
   - serverless-webpack
@@ -69,6 +80,25 @@ custom:
                   type: number
                 title:
                   type: string
+
+resources:
+  Resources:
+    ProductSQSQueue:
+      Type: AWS::SQS::Queue
+      Proerties:
+        QueueName: product-service-sqs-sns-queue
+    ProductSNSTopic:
+      Type: AWS::SNS::Topic
+      Proerties:
+        TopicName: product-service-sqs-sns-topic
+    SNSSubscription:
+      Type: AWS::SNS::Subscription
+      Proerties:
+        Endpoint: ${env:NOTIFICATION_EMAIL}
+        Protocol: email
+        TopicArn:
+          Ref: ProductSNSTopic
+
 
 functions:
   getAllProducts:
@@ -167,3 +197,12 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
+  catalogBatchProcess:
+    handler: handler.catalogBatchProcess
+    events:
+      - sqs:
+          batchSize: 5
+          arn:
+            Fn::GetAtt:
+              - ProductSQSQueue
+              - Arn

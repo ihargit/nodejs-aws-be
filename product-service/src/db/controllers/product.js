@@ -12,7 +12,6 @@ const queryDB = async (query) => {
 const postProductDB = async ({ title, description, price, count }) => {
   await productSchema.validateAsync({ title, description, price, count });
   const query = {
-    text: 'INSERT INTO products(title, description, price) VALUES($1, $2, $3)',
     text: `
     with rows as (
       insert into products(title, description, price)

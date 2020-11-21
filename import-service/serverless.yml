@@ -16,6 +16,7 @@ provider:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
     REGION: ${env:REGION}
     IMPORT_BUCKET_NAME: ${env:IMPORT_BUCKET_NAME}
+    SQS_URL: https://sqs.${env:REGION}.amazonaws.com/${ref:AWS::AccountId}/${env:PRODUCT_SQS_QUEUE_NAME}
   iamRoleStatements:
     - Effect: "Allow"
       Action: "s3:ListBucket"
