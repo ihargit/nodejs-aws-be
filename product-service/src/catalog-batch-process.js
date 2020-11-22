@@ -1,6 +1,5 @@
 import { SNS } from 'aws-sdk';
 import { postProductDB } from './db';
-import { setResponse } from './helper';
 const { REGION, PRODUCT_SNS_ARN } = process.env;
 const sns = new SNS({ region: REGION });
 

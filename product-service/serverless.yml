@@ -87,6 +87,7 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: product-service-sqs-sns-queue
+        ReceiveMessageWaitTimeSeconds: 20
     ProductSNSTopic:
       Type: AWS::SNS::Topic
       Properties:
