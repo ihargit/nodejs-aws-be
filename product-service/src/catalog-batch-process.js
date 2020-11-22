@@ -15,11 +15,17 @@ export const catalogBatchProcess = async (event) => {
       products.map((product) => postProductDB(product))
     );
     console.log('Catalog batch processing result: ', JSON.stringify(result));
-    publishingStatus = result.length ? 'succeded' : 'failed';
+    publishingStatus = result.length ? 'succeded' : 'failed'; // used as message attribute
     await sns
       .publish({
         Subject: `Products publishing ${publishingStatus}`,
         Message: JSON.stringify(result, null, 2),
+        MessageAttributes: {
+          publishingStatus: {
+            DataType: 'String',
+            StringValue: `${publishingStatus}`
+          }
+        },
         TopicArn: PRODUCT_SNS_ARN,
       })
       .promise();

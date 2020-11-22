@@ -98,6 +98,20 @@ resources:
         Protocol: email
         TopicArn:
           Ref: ProductSNSTopic
+        FilterPolicy:
+            publishingStatus:
+              - succeded
+    SNSSubscriptionFailedPublishing:
+      Type: AWS::SNS::Subscription
+      Properties:
+        Endpoint: ${env:NOTIFICATION_EMAIL_2}
+        Protocol: email
+        TopicArn:
+          Ref: ProductSNSTopic
+        FilterPolicy:
+            publishingStatus:
+              - failed
+        
   Outputs:
     ProductSQSQueueUrl:
       Value:
