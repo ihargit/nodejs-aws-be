@@ -16,7 +16,9 @@ provider:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
     REGION: ${env:REGION}
     IMPORT_BUCKET_NAME: ${env:IMPORT_BUCKET_NAME}
-    SQS_URL: https://sqs.${env:REGION}.amazonaws.com/${ref:AWS::AccountId}/${env:PRODUCT_SQS_QUEUE_NAME}
+    AWS_ACCOUNT_ID:
+      Ref: AWS::AccountId
+    SQS_URL: ${cf:product-service-${self:provider.stage}.ProductSQSQueueUrl}
   iamRoleStatements:
     - Effect: "Allow"
       Action: "s3:ListBucket"
@@ -26,6 +28,9 @@ provider:
       Action: "s3:*"
       Resource:
         - ${env:IMPORT_BUCKET_ARN}/*
+    - Effect: "Allow"
+      Action: "sqs:*"
+      Resource: ${cf:product-service-${self:provider.stage}.ProductSQSQueueArn}
 
 plugins:
   - serverless-webpack

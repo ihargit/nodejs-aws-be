@@ -24,11 +24,11 @@ provider:
   iamRoleStatements:
     - Effect: "Allow"
       Action: "sqs:*"
-      Resources:
+      Resource:
         - Fn::GetAtt: [ ProductSQSQueue, Arn]
     - Effect: "Allow"
       Action: "sns:*"
-      Resources:
+      Resource:
         Ref: ProductSNSTopic
 
 plugins:
@@ -85,20 +85,26 @@ resources:
   Resources:
     ProductSQSQueue:
       Type: AWS::SQS::Queue
-      Proerties:
+      Properties:
         QueueName: product-service-sqs-sns-queue
     ProductSNSTopic:
       Type: AWS::SNS::Topic
-      Proerties:
+      Properties:
         TopicName: product-service-sqs-sns-topic
     SNSSubscription:
       Type: AWS::SNS::Subscription
-      Proerties:
+      Properties:
         Endpoint: ${env:NOTIFICATION_EMAIL}
         Protocol: email
         TopicArn:
           Ref: ProductSNSTopic
-
+  Outputs:
+    ProductSQSQueueUrl:
+      Value:
+        Ref: ProductSQSQueue
+    ProductSQSQueueArn:
+      Value:
+        Fn::GetAtt: [ ProductSQSQueue, Arn]
 
 functions:
   getAllProducts:

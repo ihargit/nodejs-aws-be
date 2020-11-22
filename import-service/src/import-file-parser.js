@@ -19,14 +19,17 @@ export const importFileParser = async (event) => {
           console.log('Read stream error: ', JSON.stringify(error));
           reject(error);
         })
-        .on('data', (data) => {
-          sqs.sendMessage({
-            QueueUrl: SQS_URL,
-            MessageBody: data
-          }, (err, responceData) => {
-            if (err) console.log(err, err.stack);
-            else     console.log(responceData);
-          })
+        .on('data', async (data) => {
+          console.log('Product record data', JSON.stringify(data));
+          try {
+            const params = {
+              QueueUrl: SQS_URL,
+              MessageBody: JSON.stringify(data),
+            };
+            const resp = await sqs.sendMessage(params).promise();
+          } catch (err) {
+            console.log(err);
+          }
         })
         .on('end', async () => {
           const copySource = `${IMPORT_BUCKET_NAME}/${record.s3.object.key}`;

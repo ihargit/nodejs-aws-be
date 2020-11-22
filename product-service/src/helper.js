@@ -11,11 +11,12 @@ export const getOriginHeaders = (origin) => {
   return originHeaders || {};
 };
 
-export const setResponse = ({ response, statusCode, headers, body, origin }) => {
-  return  {
-    ...(response || {}),
-    statusCode: statusCode || this.statusCode || 200,
-    headers: Object.assign(this.headers || {}, getOriginHeaders(origin)),
-    body: body || this.body || null
-  };
+export const setResponse = (params = {}) => {
+  const { response = {}, statusCode, headers = {}, body, origin} = params;
+  const result = { ...response };
+  const originHeaders = origin ? getOriginHeaders(origin) : {};
+  result.statusCode =  statusCode || result.statusCode || 200;
+  result.headers = Object.assign(result.headers || {}, headers, originHeaders);
+  result.body = body || result.body || null;
+  return result;
 };
