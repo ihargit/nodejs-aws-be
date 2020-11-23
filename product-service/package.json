@@ -5,7 +5,7 @@
   "main": "handler.js",
   "scripts": {
     "deploy": "serverless deploy",
-    "test": "jest",
+    "test": "PRODUCT_SNS_ARN=arn REGION=region jest",
     "generate-openapi": "serverless openapi generate"
   },
   "keywords": [],
@@ -19,6 +19,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.3",
     "@babel/preset-env": "^7.12.1",
+    "aws-sdk-mock": "^5.1.0",
     "babel": "^6.23.0",
     "babel-core": "^6.26.3",
     "babel-jest": "^26.6.1",
