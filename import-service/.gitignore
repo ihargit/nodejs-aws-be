@@ -6,6 +6,5 @@ jspm_packages
 .serverless
 .webpack/
 .env
-bucket-policy.json
-endpoints.txt
+dev_ignored/
 import-file-parser-v*.js

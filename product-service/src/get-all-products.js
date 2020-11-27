@@ -1,3 +1,4 @@
+import * as AWS from 'aws-sdk';
 import { getAllProductsDB } from './db';
 import allowedOrigins from './constants/alloweb-origins';
 
