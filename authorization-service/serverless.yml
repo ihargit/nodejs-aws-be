@@ -1,0 +1,30 @@
+service: import-service
+frameworkVersion: "2"
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 512
+  timeout: 10
+  stage:  ${env:STAGE}
+  region: ${env:REGION}
+  profile: serverless
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+  environment:
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+    REGION: ${env:REGION}
+
+plugins:
+  - serverless-webpack
+  - serverless-dotenv-plugin
+
+custom:
+  webpack:
+    webpackConfig: "webpack.config.js"
+    includeModules: true
+  
+functions:
+  basicAuthorizer:
+    handler: handler.basicAuthorizer
