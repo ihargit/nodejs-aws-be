@@ -1,4 +1,4 @@
-service: import-service
+service: authorization-service
 frameworkVersion: "2"
 
 provider:
@@ -15,6 +15,14 @@ provider:
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
     REGION: ${env:REGION}
+    STORED_USER_PASSWORDS: ${env:STORED_USER_PASSWORDS}
+
+resources:
+  Outputs:
+    BasicAuthorizerArn:
+      Value:
+        'Fn::GetAtt': ['BasicAuthorizerLambdaFunction', 'Arn']
+
 
 plugins:
   - serverless-webpack
