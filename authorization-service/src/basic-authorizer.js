@@ -4,7 +4,7 @@ export const basicAuthorizer = async (event, ctx, cb) => {
     cb('Unauthorised');
   }
   try {
-    const authorizationToken = envent.authorizationToken;
+    const authorizationToken = event.authorizationToken;
 
     const encodedCreds = authorizationToken.split(' ')[1];
     const buff = Buffer.from(encodedCreds, 'base64');
