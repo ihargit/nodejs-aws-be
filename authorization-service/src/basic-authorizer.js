@@ -1,6 +1,6 @@
 export const basicAuthorizer = async (event, ctx, cb) => {
   console.log('Event: ', event);
-  if (event['type'] != 'TOKEN') {
+  if (event['type'] !== 'TOKEN') {
     cb('Unauthorised');
   }
   try {
