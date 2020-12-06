@@ -1,10 +1,10 @@
 # ignore .git and .cache folders
 .git
+.cache
+# ignore .test dolder, linter & prettier configs
 .test
 .eslint*
 .prettier*
 .README.md
-# ignore .git and .cache folders
-.git
-.cache
+# ignore .node_modules
 .node_modules
