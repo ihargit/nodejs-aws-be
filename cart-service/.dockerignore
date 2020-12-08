@@ -8,3 +8,5 @@ test
 .README.md
 # ignore node_modules
 node_modules
+# ignore dist folder
+dist
