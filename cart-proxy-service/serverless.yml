@@ -1,0 +1,34 @@
+service: cart-proxy-service
+frameworkVersion: "2"
+
+plugins:
+  - serverless-webpack
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 128
+  timeout: 10
+  stage:  ${env:STAGE}
+  region: ${env:REGION}
+  profile: serverless
+
+custom:
+  webpack:
+    webpackConfig: "webpack.config.js"
+    includeModules: true
+  
+functions:
+  cartServiceProxy:
+    handler: handler.proxy
+    events:
+      - http:
+          path: /{proxy+}
+          method: any
+          integration: http-proxy
+          request:
+            uri: ${env:CART_API_URI}/{proxy}
+            parameters:
+              paths:
+                proxy: true
