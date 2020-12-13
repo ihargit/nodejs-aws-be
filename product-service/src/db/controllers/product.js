@@ -37,7 +37,13 @@ const getProductByIdDB = async (id) => {
     FROM products, stocks WHERE products.id = $1 AND products.id = stocks.product_id`,
     values: [id],
   };
-  return (await queryDB(query)).rows[0];
+  let result;
+  try {
+    result = (await queryDB(query)).rows[0];
+  } catch(e) {
+    console.log(JSON.stringify(e));
+  }
+  return result;
 };
 
 const getAllProductsDB = async () => {
