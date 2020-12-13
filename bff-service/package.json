@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --fix *.js",
-    "start": "node -r dotenv/config index.js"
+    "start-dev": "node -r dotenv/config index.js",
+    "start": "node index.js",
+    "eb-init": "eb create development --single --cname ihargit-bff-development",
+    "eb-terminate": "eb terminate",
+    "eb-terminate-all": "eb terminate --all",
+    "set-env": "eb setenv `cat .env.eb | sed '/^#/ d' | sed '/^$/ d'`"
   },
   "keywords": [],
   "author": "",

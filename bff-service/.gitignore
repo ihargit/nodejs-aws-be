@@ -1,3 +1,4 @@
 node_modules
 .ebextensions/
 .env
+.env.eb
