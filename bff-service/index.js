@@ -18,9 +18,13 @@ app.all('/*', (req, res) => {
   const recipientUrl = process.env[recipient];
   console.log('recipientUrl', recipientUrl);
   if (recipient) {
+    let url = req.originalUrl;
+    if (recipient === 'products' && req.query.productId) {
+      url = `${recipient}/${req.query.productId}`;
+    }
     const axiosConfig = {
       method: req.method,
-      url: `${recipientUrl}${req.originalUrl}`,
+      url: `${recipientUrl}${url}`,
       ...(Object.keys(req.body || {}).length > 0 && { data: req.body }),
     };
 
