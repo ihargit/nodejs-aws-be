@@ -20,7 +20,7 @@ app.all('/*', (req, res) => {
   if (recipient) {
     let url = req.originalUrl;
     if (recipient === 'products' && req.query.productId) {
-      url = `${recipient}/${req.query.productId}`;
+      url = `/${recipient}/${req.query.productId}`;
     }
     const axiosConfig = {
       method: req.method,
