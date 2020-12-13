@@ -12,7 +12,7 @@ app.all('/*', (req, res) => {
   console.log('method', req.method);
   console.log('body', req.body);
 
-  const recipient = req.originalUrl.split('/')[1];
+  const recipient = req.originalUrl.split('/')[1].split('?')[0];
   console.log('recipient', recipient);
 
   const recipientUrl = process.env[recipient];

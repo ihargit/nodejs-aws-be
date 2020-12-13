@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --fix *.js",
+    "dev": "nodemon -r dotenv/config index.js",
     "start": "node -r dotenv/config index.js",
     "eb-init": "eb init ihargit-bff-api -r eu-west-1 --profile serverless",
     "eb-create": "eb create development-bff --single --cname ihargit-bff-api-dev",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "eslint": "^7.15.0",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "^2.22.1"
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.6"
   }
 }
