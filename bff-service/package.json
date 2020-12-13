@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint --fix *.js",
-    "start-dev": "node -r dotenv/config index.js",
-    "start": "node index.js",
+    "start": "node -r dotenv/config index.js",
     "eb-init": "eb init ihargit-bff-api -r eu-west-1 --profile serverless",
     "eb-create": "eb create development --single --cname ihargit-bff-api-dev",
     "eb-terminate": "eb terminate",
