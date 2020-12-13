@@ -7,8 +7,8 @@
     "lint": "eslint --fix *.js",
     "start-dev": "node -r dotenv/config index.js",
     "start": "node index.js",
-    "eb-init": "eb init ihargit-bff -r eu-west-1 --profile serverless",
-    "eb-create": "eb create development --single --cname ihargit-bff-dev",
+    "eb-init": "eb init ihargit-bff-api -r eu-west-1 --profile serverless",
+    "eb-create": "eb create development --single --cname ihargit-bff-api-dev",
     "eb-terminate": "eb terminate",
     "eb-terminate-all": "eb terminate --all",
     "set-env": "eb setenv `cat .env.eb | sed '/^#/ d' | sed '/^$/ d'`"
