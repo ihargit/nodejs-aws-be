@@ -1,0 +1,30 @@
+{
+  "name": "bff-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --fix *.js",
+    "dev": "nodemon -r dotenv/config index.js",
+    "start": "node -r dotenv/config index.js",
+    "eb-init": "eb init ihargit-bff-api -r eu-west-1 --profile serverless",
+    "eb-create": "eb create development-bff --single --cname ihargit-bff-api-dev",
+    "eb-terminate": "eb terminate",
+    "eb-terminate-all": "eb terminate --all",
+    "set-env": "eb setenv `cat .env.eb | sed '/^#/ d' | sed '/^$/ d'`"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.6"
+  }
+}
