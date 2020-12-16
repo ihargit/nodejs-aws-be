@@ -73,3 +73,9 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
   Nest is [MIT licensed](LICENSE).
+
+## Run service locally
+docker run --rm -it -p 8080:8080 cart-service
+
+eb init ihargit-cart-api -r eu-west-1 --profile serverless
+eb create --singl
